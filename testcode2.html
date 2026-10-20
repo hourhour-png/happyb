@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .forminput {
+            width: 350px;
+            height: 500px;
+            z-index: 10;
+        }
+
+        .control-table {
+            width: 100%;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="control d-flex justify-content-center align-items-center"
+        style="width: 100%; min-height: 100vh;">
+
+        <div class="control-table d-flex flex-column align-items-center">
+
+            <h1 class="text-center">Pay Ment</h1>
+
+            <!-- Search -->
+            <div class="search d-flex justify-content-between mb-3 " style="gap: 68vh;">
+
+                <input
+                    class="form-control search"
+                    type="text"
+                    placeholder="Search Student"
+                    style="width: 200px;">
+
+                <button
+                    type="button"
+                    style="width: 140px;"
+                    class="addstudent btn btn-success">
+                    Add Pay Ment
+                </button>
+
+            </div>
+
+            <!-- Student Table -->
+            <table
+                class="table table-bordered mt-3"
+                style="width: 900px;">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Add Money</th>
+                        <th>Bank</th>
+                        <th>Name Bank</th>
+                    </tr>
+
+                </thead>
+
+                <tbody class="table-data">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- Form -->
+        <form
+            class="forminput shadow bg-light position-absolute rounded-2 p-3 d-none"
+            style="width: 350px; height: 500px;">
+
+            <h5
+                style="text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                ADD Staff
+            </h5>
+
+            <!-- Username -->
+            <label class="mt-2">
+                Username:
+            </label>
+
+            <input
+                type="text"
+                class="Username form-control mt-2"
+                placeholder="Enter Your Name">
+
+
+            <!-- Gender -->
+            <label class="mt-2">
+                User Gender:
+            </label>
+
+            <select
+                class="form-select"
+                name="gender"
+                id="gender">
+
+                <option value="" selected disabled>
+                    Select Your Gender
+                </option>
+
+                <option value="Male">
+                    Male
+                </option>
+
+                <option value="Female">
+                    Female
+                </option>
+
+            </select>
+
+
+            <!-- Phone -->
+            <label class="mt-2">
+                User Phone Number:
+            </label>
+
+            <input
+                type="text"
+                class="PhoneNumber form-control mt-2"
+                placeholder="Enter Your Phone Number">
+
+
+            <!-- Email -->
+            <label class="mt-2">
+                Email:
+            </label>
+
+            <input
+                type="text"
+                class="Email form-control mt-2"
+                placeholder="Enter Your Email">
+
+
+            <!-- Password -->
+            <label class="mt-2">
+                User Password:
+            </label>
+
+            <input
+                type="password"
+                class="Password form-control mt-2"
+                placeholder="Enter Your Password">
+
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-3">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="closeform()">
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+                    Save
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        // ==============================
+        // SELECT ELEMENTS
+        // ==============================
+
+        const addStudent =
+            document.querySelector('.addstudent');
+
+        const forminput =
+            document.querySelector('.forminput');
+
+        const Username =
+            document.querySelector('.Username');
+
+        const gender =
+            document.getElementById('gender');
+
+        const Phonenumber =
+            document.querySelector('.PhoneNumber');
+
+        const Email =
+            document.querySelector('.Email');
+
+        const Password =
+            document.querySelector('.Password');
+
+        const tableData =
+            document.querySelector('.table-data');
+
+        const searchInput =
+            document.querySelector('.search input');
+
+
+        // Row ដែលកំពុង Update
+        let updateRow = null;
+
+
+        // ==============================
+        // SHOW FORM
+        // ==============================
+
+        addStudent.addEventListener('click', () => {
+
+            forminput.classList.remove('d-none');
+
+            // បើ Add ថ្មី
+            updateRow = null;
+
+            // Clear Form
+            forminput.reset();
+
+        });
+
+
+        // ==============================
+        // ADD + UPDATE
+        // ==============================
+
+        forminput.addEventListener('submit', (e) => {
+
+            e.preventDefault();
+
+
+            // ==============================
+            // CHECK INPUT
+            // ==============================
+
+            if (
+                Username.value.trim() === "" ||
+                Email.value.trim() === "" ||
+                Password.value.trim() === "" ||
+                Phonenumber.value.trim() === "" ||
+                gender.value === ""
+            ) {
+
+                alert("Please fill in all fields!");
+
+                return;
+            }
+
+
+            // ==============================
+            // UPDATE
+            // ==============================
+
+            if (updateRow !== null) {
+
+                updateRow.children[0].textContent =
+                    Username.value;
+
+                updateRow.children[1].textContent =
+                    Email.value;
+
+                updateRow.children[2].textContent =
+                    Password.value;
+
+                updateRow.children[3].textContent =
+                    Phonenumber.value;
+
+                updateRow.children[4].textContent =
+                    gender.value;
+
+
+                // បញ្ចប់ Update
+                updateRow = null;
+
+                alert("Student updated successfully!");
+
+            }
+
+
+            // ==============================
+            // ADD NEW STUDENT
+            // ==============================
+
+            else {
+
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+
+                    <td>${Username.value}</td>
+
+                    <td>${Email.value}</td>
+
+                    <td>${Password.value}</td>
+
+                    <td>${Phonenumber.value}</td>
+
+                    <td>${gender.value}</td>
+
+                    <td class="d-flex gap-2">
+
+                        <button
+                            type="button"
+                            class="btn btn-warning update-btn">
+                            Update
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-danger delete-btn">
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tableData.appendChild(row);
+
+                alert("Student added successfully!");
+
+            }
+
+
+            // Hide Form
+            forminput.classList.add('d-none');
+
+            // Clear Form
+            forminput.reset();
+
+        });
+
+
+        // ==============================
+        // UPDATE BUTTON
+        // ==============================
+
+        tableData.addEventListener('click', (e) => {
+
+            // Check Update button
+            if (e.target.classList.contains('update-btn')) {
+
+                // រក Row
+                updateRow =
+                    e.target.closest('tr');
+
+
+                // យក Data ពី Table
+                Username.value =
+                    updateRow.children[0].textContent;
+
+                Email.value =
+                    updateRow.children[1].textContent;
+
+                Password.value =
+                    updateRow.children[2].textContent;
+
+                Phonenumber.value =
+                    updateRow.children[3].textContent;
+
+                gender.value =
+                    updateRow.children[4].textContent;
+
+
+                // បង្ហាញ Form
+                forminput.classList.remove('d-none');
+
+            }
+
+
+            // ==============================
+            // DELETE BUTTON
+            // ==============================
+
+            if (e.target.classList.contains('delete-btn')) {
+
+                const row =
+                    e.target.closest('tr');
+
+                row.remove();
+
+            }
+
+        });
+
+
+        // ==============================
+        // SEARCH
+        // ==============================
+
+        searchInput.addEventListener('input', () => {
+
+            const inputValue =
+                searchInput.value.toLowerCase();
+
+
+            const rows =
+                tableData.querySelectorAll('tr');
+
+
+            rows.forEach((row) => {
+
+                const username =
+                    row.children[0]
+                        .textContent
+                        .toLowerCase();
+
+
+                if (username.includes(inputValue)) {
+
+                    row.classList.remove('d-none');
+
+                } else {
+
+                    row.classList.add('d-none');
+
+                }
+
+            });
+
+        });
+
+
+        // ==============================
+        // CLOSE FORM
+        // ==============================
+
+        function closeform() {
+
+            forminput.classList.add('d-none');
+
+            updateRow = null;
+
+            forminput.reset();
+
+        }
+
+    </script>
+
+</body>
+
+</html>

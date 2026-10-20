@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Top-up Menu</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    :root {
+      --primary: #6f42c1;
+      --primary-dark: #5a32a3;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.4) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    .game-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid transparent;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 30px rgba(111, 66, 193, 0.3);
+    }
+
+    .game-card.active {
+      border-color: var(--primary);
+      background: rgba(111, 66, 193, 0.25);
+      box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.4);
+    }
+
+    .game-card img {
+      height: 140px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .package-card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .package-card:hover {
+      border-color: #0d6efd;
+      background: rgba(13, 110, 253, 0.15);
+    }
+
+    .package-card.active {
+      border-color: #0d6efd;
+      background: rgba(13, 110, 253, 0.25);
+      box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.4);
+    }
+
+    .package-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #20c997;
+    }
+
+    .qty-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+    }
+
+    .summary-box {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-topup {
+      background: linear-gradient(90deg, var(--primary), #9b59b6);
+      border: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+    }
+
+    .btn-topup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(111, 66, 193, 0.5);
+      background: linear-gradient(90deg, var(--primary-dark), #8e44ad);
+    }
+
+    .payment-method {
+      background: rgba(255, 255, 255, 0.06);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .payment-method:hover,
+    .payment-method.active {
+      border-color: #20c997;
+      background: rgba(32, 201, 151, 0.15);
+    }
+
+    .section-title {
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .section-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 5px;
+      height: 70%;
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    .form-control, .form-select {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .form-control:focus, .form-select:focus {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 0 0.25rem rgba(111, 66, 193, 0.25);
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-label {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="bi bi-controller me-2"></i>CSR GameTopUp
+      </a>
+      <a href="https://www.facebook.com/share/18EjMT5eED/?mibextid=wwXIfr.">
+      <span class="badge bg-success rounded-pill px-3">
+        <i class="bi bi-shield-check me-1"></i> Check Me Facebook
+      </span>
+      </a>
+    </div>
+  </nav>
+<img style="width: 100%; height: 20%;" src="../topup/c8dc5c6d-d55d-467d-ba9c-18221beb9eac.png" alt="">
+  <div class="container py-4">
+
+    <!-- Step 1: Select Game -->
+    <h4 class="section-title mb-4">1. Select Game</h4>
+    <div class="row g-3 mb-5" id="gameList">
+      <!-- Games will be injected by JS -->
+    </div>
+
+    <!-- Step 2: Enter Player ID -->
+    <div id="playerIdSection" class="d-none mb-5">
+      <h4 class="section-title mb-4">2. Enter Player ID</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="playerId" class="form-label">
+              <i class="bi bi-person-badge me-1"></i> Player ID <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="form-control form-control-lg" id="playerId" 
+                   placeholder="Enter your Player ID / User ID" required>
+            <div class="form-text text-white-50">Example: 123456789 (found in game profile)</div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="serverId" class="form-label">
+              <i class="bi bi-server me-1"></i> Server / Zone ID <span class="text-white-50">(optional)</span>
+            </label>
+            <input type="text" class="form-control form-control-lg" id="serverId" 
+                   placeholder="e.g. 2001 or Asia">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Select Package -->
+    <div id="packageSection" class="d-none">
+      <h4 class="section-title mb-4">3. Choose Package</h4>
+      <div class="row g-3 mb-4" id="packageList">
+        <!-- Packages injected by JS -->
+      </div>
+    </div>
+
+    <!-- Step 4: Quantity + Summary -->
+    <div id="checkoutSection" class="d-none">
+      <div class="row">
+        <!-- Left: Quantity & Payment -->
+        <div class="col-lg-7 mb-4">
+          <h4 class="section-title mb-4">4. Quantity & Payment</h4>
+
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="fw-semibold">Quantity:</span>
+            <button class="btn btn-outline-light qty-btn" id="qtyMinus">−</button>
+            <span class="fs-4 fw-bold px-3" id="qtyValue">1</span>
+            <button class="btn btn-outline-light qty-btn" id="qtyPlus">+</button>
+          </div>
+
+          <h6 class="mb-3">Payment Method</h6>
+          <div class="row g-2" id="paymentMethods">
+            <div class="col-6 col-md-4">
+              <div class="payment-method p-3 text-center active" data-method="ewallet">
+                <i class="bi bi-wallet2 fs-3 text-success"></i>
+                <div class="small mt-1">E-Wallet</div>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="payment-method p-3 text-center" data-method="bank">
+                <i class="bi bi-bank fs-3 text-info"></i>
+                <div class="small mt-1">Bank Transfer</div>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="payment-method p-3 text-center" data-method="card">
+                <i class="bi bi-credit-card fs-3 text-warning"></i>
+                <div class="small mt-1">Credit Card</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Order Summary -->
+        <div class="col-lg-5">
+          <div class="summary-box p-4">
+            <h5 class="mb-3"><i class="bi bi-receipt me-2"></i>Order Summary</h5>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-white-50">Game</span>
+              <span id="summaryGame">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-white-50">Player ID</span>
+              <span id="summaryPlayerId" class="text-warning">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-white-50">Server</span>
+              <span id="summaryServer">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-white-50">Package</span>
+              <span id="summaryPackage">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-white-50">Unit Price</span>
+              <span id="summaryPrice">-</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-white-50">Quantity</span>
+              <span id="summaryQty">1</span>
+            </div>
+            
+            <hr class="border-secondary">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="fs-5 fw-bold">Total</span>
+              <span class="fs-4 fw-bold text-success" id="summaryTotal">$0.00</span>
+            </div>
+
+            <button class="btn btn-topup btn-lg w-100 py-3" id="btnTopup">
+    
+              <i class="bi bi-lightning-charge-fill me-2"></i>TOP UP NOW
+            
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ===== DATA =====
+    const games = [
+      {
+        id: 1,
+        name: "Mobile Legends",
+        image: "https://i.pinimg.com/736x/10/9d/b6/109db64cd2e4956f75ff450deea04859.jpg",
+        packages: [
+          { id: 101, name: "86 Diamonds", price: 1.99 },
+          { id: 102, name: "172 Diamonds", price: 3.99 },
+          { id: 103, name: "257 Diamonds", price: 5.99 },
+          { id: 104, name: "706 Diamonds", price: 14.99 },
+          { id: 105, name: "2195 Diamonds", price: 49.99 },
+        ]
+      },
+      {
+        id: 2,
+        name: "free fire",
+        image: "https://i.pinimg.com/236x/30/1a/c5/301ac5586bad7635b3ecfd7e6ab6a934.jpg?nii=t",
+        packages: [
+          { id: 201, name: "50 Diamonds", price: 0.99 },
+          { id: 202, name: "200 Diamonds", price: 4.99 },
+          { id: 203, name: "1000 Diamonds", price: 14.99 },
+          { id: 204, name: "2555 Diamonds", price: 29.99 },
+          { id: 205, name: "5999 Diamonds", price: 99.99 },
+        ]
+      },
+      {
+        id: 3,
+        name: "PUBG Mobile",
+        image: "https://logowik.com/content/uploads/images/pubg-mobile8710.jpg",
+        packages: [
+          { id: 301, name: "60 UC", price: 0.99 },
+          { id: 302, name: "325 UC", price: 4.99 },
+          { id: 303, name: "660 UC", price: 9.99 },
+          { id: 304, name: "1800 UC", price: 24.99 },
+          { id: 305, name: "3850 UC", price: 49.99 },
+        ]
+      },
+      {
+        id: 4,
+        name: "Roblox",
+        image: "https://cdn.mos.cms.futurecdn.net/v2/t:0,l:200,cw:1200,ch:900,q:80,w:1200/CPG2eef5MPjqTR7qmuxMTZ.jpg",
+        packages: [
+          { id: 401, name: "80 Roblox", price: 0.99 },
+          { id: 402, name: "240 Roblox", price: 2.99 },
+          { id: 403, name: "500 Roblox", price: 4.99 },
+          { id: 404, name: "1000 Roblox", price: 9.99 },
+          { id: 405, name: "1800 Roblox", price: 19.99 },
+        ]
+      },
+      {
+        id: 5,
+        name: "car parking",
+        image: "https://i.namu.wiki/i/z-MxzyV-Sq8vu7aQ5lUPJ6x-SK9SiS3FqR7Jxd5AFBJnTSot_BpRueFLjUZAdYO3n-zdjVJ1_21i_JwURn5v4Q.webp",
+        packages: [
+          { id: 401, name: "100 coin", price: 0.99 },
+          { id: 402, name: "250 coin", price: 2.99 },
+          { id: 403, name: "500 coin", price: 4.99 },
+          { id: 404, name: "1000 coin", price: 9.99 },
+          { id: 405, name: "2800 coin", price: 19.99 },
+        ]
+      },
+      {
+        id: 6,
+        name: "car parking",
+        image: "https://logowik.com/content/uploads/images/efootball4041.jpg",
+        packages: [
+          { id: 401, name: "137 coin", price: 0.99 },
+          { id: 402, name: "315 coin", price: 2.99 },
+          { id: 403, name: "479 coin", price: 4.99 },
+          { id: 404, name: "1092 coin", price: 9.99 },
+          { id: 405, name: "2237 coin", price: 19.99 },
+        ]
+      }
+    ];
+
+    // ===== STATE =====
+    let selectedGame = null;
+    let selectedPackage = null;
+    let quantity = 1;
+    let selectedPayment = "ewallet";
+
+    // ===== RENDER GAMES =====
+    function renderGames() {
+      const container = document.getElementById("gameList");
+      container.innerHTML = games.map(game => `
+        <div class="col-6 col-md-3">
+          <div class="game-card" data-id="${game.id}">
+            <img src="${game.image}" alt="${game.name}" class="img-fluid">
+            <div class="p-3 text-center">
+              <h6 class="mb-0">${game.name}</h6>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      document.querySelectorAll(".game-card").forEach(card => {
+        card.addEventListener("click", () => {
+          document.querySelectorAll(".game-card").forEach(c => c.classList.remove("active"));
+          card.classList.add("active");
+
+          selectedGame = games.find(g => g.id == card.dataset.id);
+          selectedPackage = null;
+          quantity = 1;
+          document.getElementById("qtyValue").textContent = 1;
+          document.getElementById("playerId").value = "";
+          document.getElementById("serverId").value = "";
+
+          // Show Player ID section
+          document.getElementById("playerIdSection").classList.remove("d-none");
+          document.getElementById("packageSection").classList.remove("d-none");
+          document.getElementById("checkoutSection").classList.add("d-none");
+
+          renderPackages();
+          updateSummary();
+        });
+      });
+    }
+
+    // ===== RENDER PACKAGES =====
+    function renderPackages() {
+      const container = document.getElementById("packageList");
+      container.innerHTML = selectedGame.packages.map(pkg => `
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="package-card p-3 text-center" data-id="${pkg.id}">
+            <div class="fw-semibold mb-1">${pkg.name}</div>
+            <div class="package-price">$${pkg.price.toFixed(2)}</div>
+          </div>
+        </div>
+      `).join("");
+
+      document.querySelectorAll(".package-card").forEach(card => {
+        card.addEventListener("click", () => {
+          document.querySelectorAll(".package-card").forEach(c => c.classList.remove("active"));
+          card.classList.add("active");
+
+          selectedPackage = selectedGame.packages.find(p => p.id == card.dataset.id);
+          document.getElementById("checkoutSection").classList.remove("d-none");
+          updateSummary();
+        });
+      });
+    }
+
+    // ===== QUANTITY =====
+    document.getElementById("qtyPlus").addEventListener("click", () => {
+      if (quantity < 99) {
+        quantity++;
+        document.getElementById("qtyValue").textContent = quantity;
+        updateSummary();
+      }
+    });
+
+    document.getElementById("qtyMinus").addEventListener("click", () => {
+      if (quantity > 1) {
+        quantity--;
+        document.getElementById("qtyValue").textContent = quantity;
+        updateSummary();
+      }
+    });
+
+    // ===== PAYMENT METHOD =====
+    document.querySelectorAll(".payment-method").forEach(el => {
+      el.addEventListener("click", () => {
+        document.querySelectorAll(".payment-method").forEach(e => e.classList.remove("active"));
+        el.classList.add("active");
+        selectedPayment = el.dataset.method;
+      });
+    });
+
+    // ===== LIVE UPDATE PLAYER ID =====
+    document.getElementById("playerId").addEventListener("input", updateSummary);
+    document.getElementById("serverId").addEventListener("input", updateSummary);
+
+    // ===== UPDATE SUMMARY =====
+    function updateSummary() {
+      if (!selectedGame) return;
+
+      document.getElementById("summaryGame").textContent = selectedGame.name;
+      
+      const playerId = document.getElementById("playerId").value.trim();
+      document.getElementById("summaryPlayerId").textContent = playerId || "-";
+
+      const serverId = document.getElementById("serverId").value.trim();
+      document.getElementById("summaryServer").textContent = serverId || "-";
+
+      if (selectedPackage) {
+        document.getElementById("summaryPackage").textContent = selectedPackage.name;
+        document.getElementById("summaryPrice").textContent = `$${selectedPackage.price.toFixed(2)}`;
+        document.getElementById("summaryQty").textContent = quantity;
+
+        const total = selectedPackage.price * quantity;
+        document.getElementById("summaryTotal").textContent = `$${total.toFixed(2)}`;
+      }
+    }
+
+    // ===== TOP UP BUTTON =====
+    document.getElementById("btnTopup").addEventListener("click", () => {
+      const playerId = document.getElementById("playerId").value.trim();
+      const serverId = document.getElementById("serverId").value.trim();
+
+      // Validation
+      if (!selectedGame) {
+        alert("Please select a game first!");
+        return;
+      }
+      if (!playerId) {
+        alert("Please enter your Player ID!");
+        document.getElementById("playerId").focus();
+        return;
+      }
+      if (!selectedPackage) {
+        alert("Please select a package!");
+        return;
+      }
+
+      const total = (selectedPackage.price * quantity).toFixed(2);
+      
+      alert(
+        `✅ Top-up Successful!\n\n` +
+        `Game       : ${selectedGame.name}\n` +
+        `Player ID  : ${playerId}\n` +
+        `Server     : ${serverId || "N/A"}\n` +
+        `Package    : ${selectedPackage.name}\n` +
+        `Quantity   : ${quantity}\n` +
+        `Payment    : ${selectedPayment.toUpperCase()}\n` +
+        `Total      : $${total}`
+      );
+    });
+
+    // ===== INIT =====
+    renderGames();
+  </script>
+</body>
+</html>

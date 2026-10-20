@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../java/javadom1.js">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+</head>
+<style>
+
+    body {
+        background-color: black;
+        margin: 0;
+        padding: 0;
+    }
+
+    .control {
+        width: 100%;
+        min-height: 100vh;
+        padding: 15px;
+    }
+
+    .control-table {
+        width: 100%;
+        max-width: 900px;
+    }
+
+    .search {
+        width: 100%;
+        gap: 10px;
+    }
+
+    .search input {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100% !important;
+        min-width: 600px;
+        white-space: nowrap;
+    }
+
+    /* Phone screen */
+    @media (max-width: 576px) {
+
+        .control {
+            padding: 10px;
+            align-items: flex-start !important;
+        }
+
+        .control-table {
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .search {
+            gap: 5px;
+        }
+
+        .search input {
+            width: auto !important;
+        }
+
+        .search button {
+            width: 80px !important;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            min-width: 600px;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            padding: 6px !important;
+        }
+
+        .forminput {
+            width: calc(100% - 30px) !important;
+            max-width: 350px;
+            height: auto !important;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    }
+</style>
+
+<body>
+  <div class="control d-flex justify-content-center align-items-center" style="width: 100%;height: 100vh;">
+    <!-- <button class="openstu btn btn-danger">ADD STAFF</button> -->
+     
+    <div class="control-table d-flex flex-column">
+      <h1 class="text-center " style="color: white;">Loing</h1>
+
+      <div class="search d-flex justify-content-between">
+        <input class="form-control" type="text" placeholder="search " style="width: 200px;">
+        <button style="width: 140px;" class="addStudent btn btn-success">+Add</button>
+      </div>
+
+      <table class="table table-bordered mt-3" style="width: 500px">
+        <tr class="table-dark">
+          <th>Username</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Phone</th>
+          <th>Gender</th>
+          <th>Actions</th>
+        </tr>
+
+        <tbody class="table-data">
+          <tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <form class="forminput shadow bg-light position-absolute rounded-2 p-3 d-none " style="width: 350px;height: 500px;"
+      action="">
+       <h4 style="text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">ADD Member</h4>
+      <label class=" mt-2" for="">User Name:</label>
+      <input type="text" class="Username form-control mt-2" placeholder="Enter Your Name">
+      <label class=" mt-2" for="">User Gender:</label>
+      <select class=" form-select" name="" id="gender">
+        <option value="" selected disabled>Select Your Gender</option>
+        <option value="Male">Male</option>
+        <option value="Femal">Femal</option>
+      </select>
+      <label class=" mt-2" for="">User Phone Number:</label>
+      <input type="text" class="PhoneNumber form-control mt-2" placeholder="Enter Your Phone Number">
+      <label class=" mt-2" for="">Email:</label>
+      <input type="text" class="Email form-control mt-2" placeholder="Enter Your Email">
+      <label class=" mt-2" for="">User Password:</label>
+      <input type="password" class="Password form-control mt-2" placeholder="Enter Your Password">
+      <div class=" d-flex justify-content-end gap-3">
+        <button class=" btn btn-secondary mt-2">Cansel</button>
+        <button class=" btn btn-primary w-75 mt-2">Save login</button>
+      </div>
+
+
+
+    </form>
+  </div>
+</body>
+<script>
+const addStudent = document.querySelector('.addStudent');
+const forminput = document.querySelector('.forminput');
+
+const Username = document.querySelector('.Username');
+const gender = document.querySelector('#gender');
+const Phonenumber = document.querySelector('.PhoneNumber');
+const Email = document.querySelector('.Email');
+const Password = document.querySelector('.Password');
+
+const tableData = document.querySelector('.table-data');
+const search = document.querySelector('.search');
+
+let editRow = null;
+
+
+// ==========================
+// OPEN ADD FORM
+// ==========================
+addStudent.addEventListener('click', () => {
+    editRow = null;
+
+    forminput.classList.remove('d-none');
+
+    // Change title
+    forminput.querySelector('h5').textContent = 'ADD Staff';
+
+    // Clear form
+    forminput.reset();
+});
+
+
+// ==========================
+// ADD / UPDATE
+// ==========================
+forminput.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Check empty
+    if (
+        Username.value === '' ||
+        gender.value === '' ||
+        Phonenumber.value === '' ||
+        Email.value === '' ||
+        Password.value === ''
+    ) {
+        alert('Please fill all information!');
+        return;
+    }
+
+
+    // ==========================
+    // UPDATE EXISTING ROW
+    // ==========================
+    if (editRow) {
+
+        editRow.cells[0].textContent = Username.value;
+        editRow.cells[1].textContent = Email.value;
+        editRow.cells[2].textContent = Password.value;
+        editRow.cells[3].textContent = Phonenumber.value;
+        editRow.cells[4].textContent = gender.value;
+
+        alert('Staff updated successfully!');
+
+        editRow = null;
+        closeForm();
+
+        return;
+    }
+
+
+    // ==========================
+    // ADD NEW ROW
+    // ==========================
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>${Username.value}</td>
+        <td>${Email.value}</td>
+        <td>${Password.value}</td>
+        <td>${Phonenumber.value}</td>
+        <td>${gender.value}</td>
+
+        <td>
+            <div class="d-flex gap-2">
+
+                <button 
+                    type="button"
+                    class="btn btn-warning btn-sm update-btn">
+                    Update
+                </button>
+
+                <button 
+                    type="button"
+                    class="btn btn-danger btn-sm delete-btn">
+                    Delete
+                </button>
+
+            </div>
+        </td>
+    `;
+
+    tableData.appendChild(row);
+
+    forminput.reset();
+    forminput.classList.add('d-none');
+
+    alert('Staff added successfully!');
+});
+
+
+// ==========================
+// UPDATE BUTTON
+// ==========================
+tableData.addEventListener('click', (e) => {
+
+    if (e.target.classList.contains('update-btn')) {
+
+        editRow = e.target.closest('tr');
+
+        // Get old data
+        Username.value = editRow.cells[0].textContent;
+        Email.value = editRow.cells[1].textContent;
+        Password.value = editRow.cells[2].textContent;
+        Phonenumber.value = editRow.cells[3].textContent;
+        gender.value = editRow.cells[4].textContent;
+
+        // Open form
+        forminput.classList.remove('d-none');
+
+        // Change title
+        forminput.querySelector('h5').textContent = 'UPDATE Staff';
+    }
+});
+
+
+// ==========================
+// DELETE BUTTON
+// ==========================
+tableData.addEventListener('click', (e) => {
+
+    if (e.target.classList.contains('delete-btn')) {
+
+        const row = e.target.closest('tr');
+
+        const username = row.cells[0].textContent;
+
+        const confirmDelete = confirm(
+            `Are you sure you want to delete ${username}?`
+        );
+
+        if (confirmDelete) {
+            row.remove();
+
+            alert('Staff deleted successfully!');
+        }
+    }
+});
+
+
+// ==========================
+// SEARCH
+// ==========================
+search.addEventListener('input', (e) => {
+
+    const keyword = e.target.value.toLowerCase();
+
+    const rows = tableData.querySelectorAll('tr');
+
+    rows.forEach(row => {
+
+        const text = row.textContent.toLowerCase();
+
+        if (text.includes(keyword)) {
+            row.classList.remove('d-none');
+        } else {
+            row.classList.add('d-none');
+        }
+
+    });
+});
+
+
+// ==========================
+// CLOSE FORM
+// ==========================
+function closeForm() {
+
+    forminput.classList.add('d-none');
+
+    forminput.reset();
+
+    editRow = null;
+
+    forminput.querySelector('h5').textContent = 'ADD Staff';
+}
+</script>
+
+</html>

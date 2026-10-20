@@ -1,0 +1,488 @@
+/* ================= GENERAL ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #0b0b0f;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin-left: 20px;
+}
+
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    background: rgba(8, 8, 12, 0.95);
+    padding: 15px 0;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    font-size: 25px;
+}
+
+.navbar-brand i {
+    color: #e50914;
+}
+
+.navbar-brand span {
+    color: #e50914;
+}
+
+.nav-link {
+    color: #ddd !important;
+    margin: 0 8px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #e50914 !important;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+    min-height: 700px;
+
+    display: flex;
+    align-items: center;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,0.95),
+            rgba(0,0,0,0.65),
+            rgba(0,0,0,0.3)
+        ),
+        url("https://image.tmdb.org/t/p/original/8YFL5QQVPy3Mrs3FYguzawdx1d.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.hero h1 {
+    font-size: 60px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #e50914;
+}
+
+.hero p {
+    color: #ccc;
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.buyitem {
+    display: flex;
+    align-items: center;
+  
+}
+
+.buyitem span {
+    font-size: 20px;
+    
+}
+
+.buyitem a {
+    padding: 0;
+}
+.buyitem:hover{
+    color: crimson;
+     transform: scale(1.1);
+}
+
+/* ================= SEARCH ================= */
+
+.search-section {
+    padding: 40px 0;
+    background: #111116;
+}
+
+.search-box {
+    max-width: 700px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+
+    background: #202027;
+
+    border-radius: 10px;
+
+    padding: 15px 20px;
+}
+
+.search-box i {
+    font-size: 22px;
+    color: #aaa;
+    margin-right: 15px;
+}
+
+.search-box input {
+    width: 100%;
+
+    background: transparent;
+
+    border: none;
+    outline: none;
+
+    color: white;
+    font-size: 17px;
+}
+
+.search-box input::placeholder {
+    color: #888;
+}
+
+
+/* ================= MOVIES ================= */
+
+.movies-section {
+    padding: 80px 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 38px;
+    font-weight: 700;
+}
+
+.section-title h2::after {
+    content: "";
+
+    display: block;
+
+    width: 60px;
+    height: 4px;
+
+    background: #e50914;
+
+    margin: 15px auto;
+}
+
+.section-title p {
+    color: #999;
+}
+
+
+/* ================= CATEGORY ================= */
+
+.category-buttons .btn {
+    margin: 5px;
+    border-radius: 20px;
+    padding: 8px 20px;
+}
+
+
+/* ================= MOVIE CARD ================= */
+
+.movie-card {
+    background: #16161d;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition: 0.3s;
+
+    height: 100%;
+}
+
+.movie-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.6);
+}
+
+.movie-image {
+    height: 370px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.movie-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: 0.5s;
+}
+
+.movie-card:hover .movie-image img {
+    transform: scale(1.08);
+}
+
+
+/* ================= MOVIE OVERLAY ================= */
+
+.movie-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.6);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+
+    transition: 0.3s;
+}
+
+.movie-card:hover .movie-overlay {
+    opacity: 1;
+}
+
+.watch-btn {
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background: #e50914;
+
+    color: white;
+
+    font-size: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.watch-btn:hover {
+    background: white;
+    color: #e50914;
+}
+
+
+/* ================= RATING ================= */
+
+.movie-rating {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    background: rgba(0,0,0,0.8);
+
+    padding: 6px 10px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+}
+
+
+/* ================= MOVIE INFO ================= */
+
+.movie-info {
+    padding: 18px;
+
+    position: relative;
+}
+
+.movie-info h5 {
+    font-size: 18px;
+
+    margin-bottom: 8px;
+}
+
+.movie-info p {
+    color: #888;
+
+    margin: 0;
+}
+
+.favorite-btn {
+    position: absolute;
+
+    right: 15px;
+    bottom: 15px;
+
+    background: none;
+
+    border: none;
+
+    color: #777;
+
+    font-size: 20px;
+}
+
+.favorite-btn:hover {
+    color: #e50914;
+}
+
+
+/* ================= POPULAR ================= */
+
+.popular-section {
+    padding: 80px 0;
+
+    background: #111116;
+}
+
+.popular-card {
+    background: #1b1b22;
+
+    padding: 25px;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    transition: 0.3s;
+}
+
+.popular-card:hover {
+    transform: translateY(-5px);
+
+    background: #24242c;
+}
+
+.number {
+    font-size: 40px;
+
+    font-weight: 800;
+
+    color: #e50914;
+}
+
+.popular-card h4 {
+    margin: 0 0 5px;
+}
+
+.popular-card p {
+    color: #888;
+
+    margin: 0;
+}
+
+
+/* ================= ABOUT ================= */
+
+.about-section {
+    padding: 100px 0;
+}
+
+.about-section h2 {
+    font-size: 40px;
+}
+
+.about-section h2 span {
+    color: #e50914;
+}
+
+.about-section p {
+    color: #aaa;
+
+    line-height: 1.8;
+
+    font-size: 17px;
+}
+
+.about-icon {
+    font-size: 180px;
+
+    color: #e50914;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+    padding: 50px 0;
+
+    background: #070709;
+
+    border-top: 1px solid #222;
+}
+
+footer h3 {
+    font-weight: bold;
+}
+
+footer h3 span {
+    color: #e50914;
+}
+
+footer p {
+    color: #777;
+}
+
+.social a {
+    color: #aaa;
+
+    font-size: 22px;
+
+    margin: 0 10px;
+
+    transition: 0.3s;
+}
+
+.social a:hover {
+    color: #e50914;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+    .hero {
+        min-height: 600px;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .movie-image {
+        height: 320px;
+    }
+
+    .about-icon {
+        font-size: 120px;
+        margin-top: 30px;
+    }
+
+}

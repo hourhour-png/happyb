@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday To Me! </title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #6F4E37 0%, #898989 50%, #0000FF 100%);
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .birthday-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .title {
+      font-family: 'Pacifico', cursive;
+      font-size: 3rem;
+      color: #6F4E37;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      background-color: #f00;
+      top: -20px;
+      z-index: 999;
+      border-radius: 2px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .balloon {
+      position: absolute;
+      font-size: 2.5rem;
+      animation: float 4s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+
+    .btn-wish {
+      background: linear-gradient(45deg,#6F4E37 , #0000FF);
+      border: none;
+      padding: 12px 30px;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-wish:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+    }
+
+    .cake {
+      font-size: 5rem;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .message {
+      font-size: 1.25rem;
+      color: #555;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Balloons -->
+  <div class="balloon" style="left: 10%; top: 20%;">🎈</div>
+  <div class="balloon" style="left: 85%; top: 15%; animation-delay: 1s;">🎈</div>
+  <div class="balloon" style="left: 20%; top: 70%; animation-delay: 2s;">🎈</div>
+  <div class="balloon" style="left: 75%; top: 65%; animation-delay: 0.5s;">🎈</div>
+
+  <div class="container py-5">
+    <div class="birthday-card p-4 p-md-5 text-center">
+
+      <!-- Cake -->
+      <div class="cake mb-3">🎂</div>
+
+      <!-- Title -->
+      <h1 class="title mb-3">Happy Birthday<br>To Me!</h1>
+
+      <!-- Message -->
+      <p class="message mb-4">
+        Today is all about celebrating <strong>YOU</strong>!<br>
+        Another year of growth, laughter, and amazing moments.<br>
+        Wishing myself love, joy, success, and lots of cake! 
+      </p>
+
+      <!-- Age Counter (optional - change the year) -->
+      <div class="mb-4">
+        <h4 class="text-muted">I'm turning</h4>
+        <h2 class="display-4 fw-bold " style="color: #6F4E37;" id="age">--</h2>
+      </div>
+
+      <!-- Buttons -->
+       <a class=" text-decoration-none" href="https://t.me/benzersam">
+      <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+        <button class="btn btn-wish text-white" onclick="startCelebration()">
+          Contect Celebrate Me!
+        </button>
+      </div>
+</a>
+      <!-- Wish Message -->
+      <div id="wishBox" class="mt-4 p-3 bg-light rounded-4 d-none">
+        <p id="wishText" class="mb-0 fw-semibold text-danger fs-5"></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ===== Change this to your birth year =====
+    const birthYear = 2006;   // <-- Edit this year
+
+    // Calculate age
+    const currentYear = new Date().getFullYear();
+    document.getElementById('age').textContent = currentYear - birthYear;
+
+    // Wish messages
+    // const wishes = [
+    //   "May this year bring you endless happiness and success! ",
+    //   "You're amazing — keep shining bright! ",
+    //   "Here's to more adventures, laughter, and cake! ",
+    //   "Another year wiser and even more fabulous! ",
+    //   "Celebrate yourself — you deserve it every single day! ",
+    //   "May all your dreams come true this year! ",
+    //   "Cheers to you and all the wonderful things ahead! "
+    // ];
+
+    function changeMessage() {
+      const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
+      const wishBox = document.getElementById('wishBox');
+      const wishText = document.getElementById('wishText');
+
+      wishText.textContent = randomWish;
+      wishBox.classList.remove('d-none');
+    }
+
+    // Confetti celebration
+    function startCelebration() {
+      const colors = ['#ff4d6d', '#ff8fab', '#ffc2d1', '#ffb3c1', '#ff85a1', '#ffd6e0', '#ff9ebb'];
+      
+      for (let i = 0; i < 80; i++) {
+        setTimeout(() => {
+          createConfetti(colors[Math.floor(Math.random() * colors.length)]);
+        }, i * 30);
+      }
+
+      // Also show a random wish
+      changeMessage();
+    }
+
+    function createConfetti(color) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = color;
+      confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      confetti.style.width = (Math.random() * 10 + 8) + 'px';
+      confetti.style.height = confetti.style.width;
+
+      document.body.appendChild(confetti);
+
+      // Remove after animation
+      setTimeout(() => {
+        confetti.remove();
+      }, 5000);
+    }
+
+    // Auto start a little confetti on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        for (let i = 0; i < 20; i++) {
+          setTimeout(() => createConfetti(['#ff4d6d', '#ff8fab', '#ffc2d1'][i % 3]), i * 100);
+        }
+      }, 800);
+    });
+  </script>
+</body>
+</html>
