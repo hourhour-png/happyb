@@ -114,9 +114,7 @@
 
       <!-- Message -->
       <p class="message mb-4">
-        Today is all about celebrating <strong>YOU</strong>!<br>
-        Another year of growth, laughter, and amazing moments.<br>
-        Wishing myself love, joy, success, and lots of cake! 
+        <img class=" w-100 " style="display: flex; height: 400px;" src="../photo_2026-10-21_18-05-09.jpg" alt="">
       </p>
 
       <!-- Age Counter (optional - change the year) -->
@@ -152,16 +150,6 @@
     const currentYear = new Date().getFullYear();
     document.getElementById('age').textContent = currentYear - birthYear;
 
-    // Wish messages
-    // const wishes = [
-    //   "May this year bring you endless happiness and success! ",
-    //   "You're amazing — keep shining bright! ",
-    //   "Here's to more adventures, laughter, and cake! ",
-    //   "Another year wiser and even more fabulous! ",
-    //   "Celebrate yourself — you deserve it every single day! ",
-    //   "May all your dreams come true this year! ",
-    //   "Cheers to you and all the wonderful things ahead! "
-    // ];
 
     function changeMessage() {
       const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
